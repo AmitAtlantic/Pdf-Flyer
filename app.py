@@ -29,12 +29,21 @@ def generate_pdf():
         if not data:
             return jsonify({"error": "No JSON data received"}), 400
 
+        # Prepare and limit TOC
+        toc_raw = html.unescape(data.get('toc', ''))
+        toc = "\n".join(toc_raw.splitlines()[:50])
+        if len(toc_raw.splitlines()) > 50:
+            toc += "\n... check website to see more"
+
+        # Render HTML with template
         rendered_html = render_template(
             'flyer_template.html',
             product_title=data.get('product_title'),
             product_image=data.get('product_image'),
             product_category=data.get('product_category'),
-            imprint=data.get('imprint'),
+            publisher_imprint=data.get('publisher'),
+            edition=data.get('edition'),
+            volume=data.get('volume'),
             publishing_date=data.get('publishing_date'),
             pages=data.get('pages'),
             isbn=data.get('isbn'),
@@ -42,10 +51,11 @@ def generate_pdf():
             variants=data.get('variants'),
             price=data.get('price'),
             book_desc=html.unescape(data.get('book_desc', '')),
-            about_author=html.unescape(data.get('about_author','')),
-            toc=html.unescape(data.get('toc','')),
+            about_author=html.unescape(data.get('about_author', '')),
+            toc=toc
         )
 
+        # PDF generation options
         options = {
             'page-size': 'A4',
             'encoding': 'UTF-8',
@@ -53,10 +63,10 @@ def generate_pdf():
             'margin-right': '0',
             'margin-bottom': '0',
             'margin-left': '0',
-            'zoom': '1',  # You can adjust this down to fit large content
+            'zoom': '1',
         }
 
-
+        # Create PDF
         pdf = pdfkit.from_string(rendered_html, False, configuration=config, options=options)
 
         return send_file(

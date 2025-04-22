@@ -27,7 +27,7 @@
         }
 
         .heading {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #1c69a1;
             text-transform: uppercase;
@@ -37,7 +37,21 @@
         ol,
         ul {
             padding-left: 25px;
-            list-style: none;
+        }
+
+        li {
+            font-size: 12px;
+            margin: 0px;
+            padding: 0px;
+            -webkit-margin-before: 0px;
+            -webkit-margin-after: 0px;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            -webkit-padding-before: 0px;
+            -webkit-padding-after: 0px;
+            -webkit-padding-start: 0px;
+            -webkit-padding-end: 0px;
+            line-height: 1.3rem;
         }
 
         .col-3 {
@@ -98,8 +112,12 @@
         .flyer_content {
             width: 70%;
             display: flex;
+            display: -webkit-flex;
             flex-direction: column;
             justify-content: space-between;
+            align-content: space-between;
+            align-items: stretch;
+            height: 100%;
         }
 
         .book_image {
@@ -155,12 +173,6 @@
             padding: 10px 8px;
         }
 
-        .table_of_content li {
-            margin: 10px 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
         .table_of_content h2 {
             text-transform: uppercase;
         }
@@ -173,12 +185,12 @@
         .flyer_description .title {
             text-transform: uppercase;
             color: #1c69a1;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 18px;
         }
 
         .author {
-            margin-top: 20px;
+            margin-top: 10px;
             color: #c01a2c;
             font-size: 16px;
             text-transform: uppercase;
@@ -208,8 +220,8 @@
         }
 
         .footer_top .flyer_company {
-            margin: 10px;
-            font-size: 20px;
+            margin: 5px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -239,23 +251,19 @@
             margin-top: 20px;
             letter-spacing: 0.5px;
         }
-
-        .flyer_footer_bottom .footer_address {
-            padding-left: 0px;
-        }
-
         .middle_content {
-            padding: 0 10px;
+            padding: 0px 5px;
         }
-
         .flyer_footer_bottom .footer_address .agent {
-            font-size: 13px;
+            font-size: 12px;
             margin: 10px 0;
+            word-break: break-all;
         }
 
         .flyer_footer_bottom .footer_address div p {
             margin: 0px;
-            font-size: 13px;
+            font-size: 12px;
+            word-break: break-all;
         }
 
         .icon_list li {
@@ -283,47 +291,53 @@
                 </div>
                 <div class="meta_info bg-dark">
                     <p class="category">{{ product_category }}</p>
-                {% if variants %}
-                  {% for v in variants %}
-                  <p>
-                    {% if v.isbn %}
-                      {{ v.isbn }}
+                    <p>{{ publisher_imprint }} | {{ publishing_date }} | {{ pages }}pp</p>
+                    {% if variants %}
+                    {% for v in variants %}
+                    <p>
+                        {% if v.isbn %}
+                        {{ v.isbn }}
+                        {% endif %}
+                        |
+                        {{ v.title }}
+                        | Inr {{ v.price }}
+                    </p>
+                    {% endfor %}
                     {% endif %}
-                    |
-                    {{ v.title }}
-                    | Inr {{ v.price }}
-                  </p>
-                  {% endfor %}
-                {% else %}
-                  <p>No variants available.</p>
-                {% endif %}
                 </div>
                 <div class="table_of_content">
                     {% if toc %}
+                    <h3>Content: </h3>
                     {{ toc|safe }}
                     {% endif %}
                 </div>
             </div>
             <div class="flyer_content">
                 <div class="flyer_header bg-dark"">
-                    <table style="width: 100%; border-collapse: collapse;">
-                      <tr>
+                    <table style=" width: 100%; border-collapse: collapse;">
+                    <tr>
                         <td style="text-align: left;">
-                          <div class="flyer_atlantic_logo">
-                            <img src="https://cdn.shopify.com/s/files/1/0666/3471/1191/files/Atlantic_LOgo.png" width="200" />
-                          </div>
+                            <div class="flyer_atlantic_logo">
+                                <img src="https://cdn.shopify.com/s/files/1/0666/3471/1191/files/Atlantic_LOgo.png"
+                                    width="200" />
+                            </div>
                         </td>
                         <td style="text-align: right;">
-                          <div class="website-link" style="color: white;">
-                            <p style="margin: 0;">www.atlanticbooks.com</p>
-                          </div>
+                            <div class="website-link" style="color: white;">
+                                <p style="margin: 0;">www.atlanticbooks.com</p>
+                            </div>
                         </td>
-                      </tr>
+                    </tr>
                     </table>
-                  </div>
-                  
+                </div>
+
                 <div class="flyer_description">
                     <h1 class="title">{{ product_title }}</h1>
+                    {% if volume or edition %}
+                    <h4 class="product_meta">{{ volume }}{% if volume and edition %} | {% endif %}{{ edition }} Edition
+                    </h4>
+                    {% endif %}
+
                     <h2 class="author">By {{ author }}</h2>
                     <hr>
                     <div class="product_desc">
@@ -345,11 +359,6 @@
                         <span class="caption">Please send your orders to:</span>
                         <div class="flyer_company">Atlantic Publishers & Distributors (P) Ltd.</div>
                         <p><strong>Corporate Office: </strong>7/22, Ansari Road, Darya Ganj, New Delhi-110002</p>
-                        <p>
-                            <strong>Branch Office: </strong>2nd Floor, Rasheed Mansion, Door No. 408 (Old No. 622), Anna
-                            Salai, Thousand
-                            Lights, Chennai
-                        </p>
                         <ul class="icon_list">
                             <li>
                                 <div class="icon"></div>
@@ -367,15 +376,15 @@
                             <div class="footer_address">
                                 <div class="agent">
                                     <p>Nitin Sharma: +91 9717670228</p>
-                                    <div>Email: nitin@atlanticbooks.com</div>
+                                    <p>Email: nitin@atlanticbooks.com</p>
                                 </div>
                                 <div class="agent">
                                     <p>Ram Nath Gaur: +91-11-40775220</p>
-                                    <div>Email: orders@atlanticbooks.com</div>
+                                    <p>Email: orders@atlanticbooks.com</p>
                                 </div>
                                 <div class="agent">
                                     <p>Pradeep Sharma: +91 9911727215</p>
-                                    <div>Email: pradeep@atlanticbooks.com</div>
+                                    <p>Email: pradeep@atlanticbooks.com</p>
                                 </div>
                             </div>
                         </div>
@@ -384,11 +393,11 @@
                             <div class="footer_address">
                                 <div class="agent">
                                     <p>S. Nagarajan: +91 9445627797</p>
-                                    <div>Email: nagarajan@atlanticbooks.com</div>
+                                    <p>Email: nagarajan@atlanticbooks.com</p>
                                 </div>
                                 <div class="agent">
                                     <p>P.C. Mukandan: +91 4448531784</p>
-                                    <div>Email: chennai@atlanticbooks.com</div>
+                                    <p>Email: chennai@atlanticbooks.com</p>
                                 </div>
                             </div>
                         </div>
@@ -397,14 +406,14 @@
                             <div class="footer_address">
                                 <div class="agent">
                                     <p>Subrata Basak: +91 9874607483</p>
-                                    <div>Email: kolkata@atlanticbooks.com</div>
+                                    <p>Email: kolkata@atlanticbooks.com</p>
                                 </div>
                             </div>
                             <h4>Pune:</h4>
                             <div class="footer_address">
                                 <div class="agent">
                                     <p>Chitra Gajanan Lele: +91 8421917315</p>
-                                    <div>Email: chitra@atlanticbooks.com</div>
+                                    <p>Email: chitra@atlanticbooks.com</p>
                                 </div>
                             </div>
                         </div>
