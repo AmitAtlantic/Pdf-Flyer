@@ -4,285 +4,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        * {
-            margin: 0;
-            letter-spacing: 0.5px;
-            font-family: sans-serif;
-            line-height: 1.5em;
-        }
-
-        #open-flyer {
-            margin-bottom: 100px;
-        }
-
-        img {
-            width: 100%;
-        }
-
-        .heading {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1c69a1;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        ol,
-        ul {
-            padding-left: 25px;
-        }
-
-        li {
-            font-size: 12px;
-            margin: 0px;
-            padding: 0px;
-            -webkit-margin-before: 0px;
-            -webkit-margin-after: 0px;
-            -webkit-margin-start: 0px;
-            -webkit-margin-end: 0px;
-            -webkit-padding-before: 0px;
-            -webkit-padding-after: 0px;
-            -webkit-padding-start: 0px;
-            -webkit-padding-end: 0px;
-            line-height: 1.3rem;
-        }
-
-        .col-3 {
-            width: 33.33%;
-            word-break: break-all;
-        }
-
-        .col-4 {
-            width: 25%;
-            word-break: break-all;
-        }
-
-        .col-6 {
-            width: 50%;
-            word-break: break-all;
-        }
-
-        .bg-dark {
-            background: #1c69a1;
-        }
-
-        .flyer_section.product-pdf {
-            margin: 0 !important;
-            padding: 0 !important;
-            box-sizing: border-box;
-            width: 100%;
-            background: #fff;
-            page-break-inside: avoid;
-            height: 100%;
-
-        }
-
-        hr {
-            margin: 20px 0;
-        }
-
-        .flyer_container {
-            min-height: 100%;
-            width: 100%;
-            overflow: hidden;
-            box-sizing: border-box;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            padding: 10px;
-            border: 1px groove #cccccc;
-            max-width: 100%;
-            flex-wrap: wrap;
-            align-items: stretch;
-            align-content: space-between
-        }
-
-        .sidebar {
-            width: 30%;
-            background: #f0f7f8;
-        }
-
-        .flyer_content {
-            width: 70%;
-            display: flex;
-            display: -webkit-flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-content: space-between;
-            align-items: stretch;
-            height: 100%;
-        }
-
-        .book_image {
-            text-align: center;
-            padding: 15px;
-        }
-
-        .book_image img {
-            max-width: 250px;
-            border-radius: 4px;
-        }
-
-        .flyer_header {
-            display: flex;
-            display: -webkit-box;
-            display: -webkit-flex;
-            align-items: center;
-            justify-content: space-between;
-            -webkit-justify-content: space-between;
-            padding: 20px;
-            display: flex;
-            vertical-align: middle;
-            text-align: right;
-        }
-
-        .flyer_atlantic_logo {
-            max-width: 200px;
-        }
-
-        .website-link {
-            color: #fff;
-            text-align: right;
-        }
-
-        .meta_info {
-            padding: 10px 8px;
-        }
-
-        .meta_info p {
-            color: #fff;
-            text-transform: uppercase;
-            font-size: 13px;
-            margin: 5px 0;
-            font-weight: 500;
-        }
-
-        .meta_info .category {
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .table_of_content {
-            padding: 10px 8px;
-        }
-
-        .table_of_content h2 {
-            text-transform: uppercase;
-        }
-
-        .flyer_description {
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .flyer_description .title {
-            text-transform: uppercase;
-            color: #1c69a1;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .author {
-            margin-top: 10px;
-            color: #c01a2c;
-            font-size: 16px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .product_desc {
-            text-align: justify;
-            font-weight: 500;
-            font-size: 15px;
-        }
-
-        .about_author {
-            text-align: justify;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .flyer_footer {
-            margin-top: auto;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .footer_top {
-            text-align: center;
-        }
-
-        .footer_top .flyer_company {
-            margin: 5px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .icon_list {
-            list-style: none;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-            justify-content: center;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            margin: 10px 0;
-            gap: 20px;
-            -webkit-column-gap: 20px;
-            column-gap: 20px;
-            width: 100%;
-        }
-
-        .flyer_footer_bottom {
-            display: flex;
-            display: -webkit-box;
-            display: -webkit-flex;
-            margin-top: 20px;
-            letter-spacing: 0.5px;
-        }
-        .middle_content {
-            padding: 0px 5px;
-        }
-        .flyer_footer_bottom .footer_address .agent {
-            font-size: 12px;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-
-        .flyer_footer_bottom .footer_address div p {
-            margin: 0px;
-            font-size: 12px;
-            word-break: break-all;
-        }
-
-        .icon_list li {
-            display: flex;
-            display: -webkit-box;
-            display: -webkit-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            margin: 0px 10px;
-        }
-
-        .icon_list li .icon svg {
-            width: 20px;
-        }
-    </style>
+    
 </head>
 
 <body>
+    <style>
+        
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-family: sans-serif;
+    line-height: 1.5em;
+}
+
+#open-flyer {
+    margin-bottom: 100px;
+}
+
+img {
+    width: 100%;
+}
+
+.heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1c69a1;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+ol,
+ul {
+    padding-left: 25px;
+}
+
+li {
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0px;
+    -webkit-padding-after: 0px;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+    line-height: 1.3rem;
+}
+
+.col-3 {
+    width: 33.33%;
+    word-break: break-all;
+}
+
+.col-4 {
+    width: 25%;
+    word-break: break-all;
+}
+
+.col-6 {
+    width: 50%;
+    word-break: break-all;
+}
+
+.bg-dark {
+    background: #1c69a1;
+}
+
+.flyer_section.product-pdf {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    width: 100%;
+    background: #fff;
+    page-break-inside: avoid;
+    height: 100%;
+
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.flyer_container {
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    padding: 10px;
+    border: 1px groove #cccccc;
+    max-width: 100%;
+}
+
+.sidebar {
+    width: 30%;
+    background: #f0f7f8;
+}
+
+.flyer_content {
+    width: 70%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+
+    position: relative;
+}
+
+.book_image {
+    text-align: center;
+    padding: 15px;
+}
+
+.book_image img {
+    max-width: 250px;
+    border-radius: 4px;
+}
+
+.flyer_header {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    padding: 20px;
+    display: flex;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.flyer_atlantic_logo {
+    max-width: 200px;
+}
+
+.website-link {
+    color: #fff;
+    text-align: right;
+}
+
+.meta_info {
+    padding: 10px 8px;
+}
+
+.meta_info p {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.meta_info .category {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.table_of_content {
+    padding: 10px 8px;
+}
+
+.table_of_content h2 {
+    text-transform: uppercase;
+}
+
+.flyer_description {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.flyer_description .title {
+    text-transform: uppercase;
+    color: #1c69a1;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.author {
+    margin-top: 10px;
+    color: #c01a2c;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.product_desc {
+    text-align: justify;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.about_author {
+    text-align: justify;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.flyer_footer {
+    margin-top: auto;
+    color: #fff;
+    padding: 10px;
+}
+
+.footer_top {
+    text-align: center;
+}
+
+.footer_top .flyer_company {
+    margin: 5px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.icon_list {
+    list-style: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    margin: 10px 0;
+    gap: 20px;
+    -webkit-column-gap: 20px;
+    column-gap: 20px;
+    width: 100%;
+}
+
+.flyer_footer_bottom {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    margin-top: 20px;
+    letter-spacing: 0.5px;
+    position: relative;
+    bottom: 0;
+}
+.middle_content {
+    padding: 0px 5px;
+}
+.flyer_footer_bottom .footer_address .agent {
+    font-size: 12px;
+    margin: 10px 0;
+    word-break: break-all;
+}
+
+.flyer_footer_bottom .footer_address div p {
+    margin: 0px;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.icon_list li {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin: 0px 10px;
+}
+
+.icon_list li .icon svg {
+    width: 20px;
+}
+    </style>
     <section class="flyer_section product-pdf">
         <div class="flyer_container">
             <div class="sidebar">
