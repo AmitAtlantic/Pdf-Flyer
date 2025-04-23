@@ -4,22 +4,52 @@ import pdfkit
 import io
 import os
 import html
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-
-# Allow CORS for local testing or specify your domain in production
 CORS(app, resources={r"/generate-pdf": {"origins": "*"}})
 
-# Path to wkhtmltopdf
 WKHTMLTOPDF_PATH = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
 if not os.path.exists(WKHTMLTOPDF_PATH):
     raise FileNotFoundError(f"wkhtmltopdf not found at {WKHTMLTOPDF_PATH}")
 
 config = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_PATH)
 
+# Helper function to truncate HTML while preserving tag structure
+def truncate_html_preserving_tags(html_content, char_limit):
+    soup = BeautifulSoup(html_content, 'html.parser')
+    total_chars = 0
+
+    def truncate_node(node):
+        nonlocal total_chars
+        if node.name is None:  # NavigableString
+            if total_chars >= char_limit:
+                node.extract()
+                return
+            text_len = len(node)
+            if total_chars + text_len > char_limit:
+                node.replace_with(node[:char_limit - total_chars])
+                total_chars = char_limit
+            else:
+                total_chars += text_len
+        else:
+            for child in list(node.contents):
+                if total_chars >= char_limit:
+                    child.extract()
+                else:
+                    truncate_node(child)
+
+    truncate_node(soup)
+
+    if total_chars >= char_limit:
+        note = soup.new_tag("p")
+        note.string = "[... check website to see more]"
+        soup.append(note)
+
+    return str(soup)
+
 @app.route('/generate-pdf', methods=['POST', 'OPTIONS'])
 def generate_pdf():
-    # Respond to preflight request
     if request.method == 'OPTIONS':
         return '', 204
 
@@ -29,33 +59,21 @@ def generate_pdf():
         if not data:
             return jsonify({"error": "No JSON data received"}), 400
 
-        TOC_CHAR_LIMIT = 1445
-        # Process Table of Contents
+        # Character limits
+        TOC_CHAR_LIMIT = 900
+        CHAR_LIMIT = 1200
+
+        # Process Table of Contents (HTML safe)
         toc_raw = html.unescape(data.get('toc', ''))
-        toc = toc_raw[:TOC_CHAR_LIMIT]
-        if len(toc_raw) > TOC_CHAR_LIMIT:
-            toc += "\n[... check website to see more]"
+        toc = truncate_html_preserving_tags(toc_raw, TOC_CHAR_LIMIT)
 
-        # Set character limit
-        CHAR_LIMIT = 1300  # Adjust as needed
-        # Process About the Book
+        # Process About the Book (HTML safe)
         book_desc_raw = html.unescape(data.get('book_desc', ''))
-        book_desc = book_desc_raw[:CHAR_LIMIT]
-        if len(book_desc_raw) > CHAR_LIMIT:
-            book_desc += "\n[... check website to see more]"
+        book_desc = truncate_html_preserving_tags(book_desc_raw, CHAR_LIMIT)
 
-            
-        # Process About the Book
-        book_desc_raw = html.unescape(data.get('book_desc', ''))
-        book_desc = book_desc_raw[:CHAR_LIMIT]
-        if len(book_desc_raw) > CHAR_LIMIT:
-            book_desc += "\n[... check website to see more]"
-
-        # Process About the Author
+        # Process About the Author (HTML safe)
         about_author_raw = html.unescape(data.get('about_author', ''))
-        about_author = about_author_raw[:CHAR_LIMIT]
-        if len(about_author_raw) > CHAR_LIMIT:
-            about_author += "\n[... check website to see more]"
+        about_author = truncate_html_preserving_tags(about_author_raw, CHAR_LIMIT)
 
         # Render HTML with template
         rendered_html = render_template(
@@ -88,7 +106,6 @@ def generate_pdf():
             'zoom': '1',
         }
 
-        # Create PDF
         pdf = pdfkit.from_string(rendered_html, False, configuration=config, options=options)
 
         return send_file(
