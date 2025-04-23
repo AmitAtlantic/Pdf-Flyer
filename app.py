@@ -31,8 +31,8 @@ def generate_pdf():
 
         # Prepare and limit TOC
         toc_raw = html.unescape(data.get('toc', ''))
-        toc = "\n".join(toc_raw.splitlines()[:50])
-        if len(toc_raw.splitlines()) > 50:
+        toc = "\n".join(toc_raw.splitlines()[:52])
+        if len(toc_raw.splitlines()) > 52:
             toc += "\n... check website to see more"
 
         # Render HTML with template
