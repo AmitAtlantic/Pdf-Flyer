@@ -7,7 +7,7 @@ import html
 
 app = Flask(__name__)
 
-# 👇 Replace with your actual domain (or use '*' temporarily to test)
+# Allow CORS for local testing or specify your domain in production
 CORS(app, resources={r"/generate-pdf": {"origins": "*"}})
 
 # Path to wkhtmltopdf
@@ -19,7 +19,7 @@ config = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_PATH)
 
 @app.route('/generate-pdf', methods=['POST', 'OPTIONS'])
 def generate_pdf():
-    # 👇 Respond to the preflight OPTIONS request
+    # Respond to preflight request
     if request.method == 'OPTIONS':
         return '', 204
 
@@ -29,11 +29,33 @@ def generate_pdf():
         if not data:
             return jsonify({"error": "No JSON data received"}), 400
 
-        # Prepare and limit TOC
+        TOC_CHAR_LIMIT = 1445
+        # Process Table of Contents
         toc_raw = html.unescape(data.get('toc', ''))
-        toc = "\n".join(toc_raw.splitlines()[:52])
-        if len(toc_raw.splitlines()) > 52:
-            toc += "\n... check website to see more"
+        toc = toc_raw[:TOC_CHAR_LIMIT]
+        if len(toc_raw) > TOC_CHAR_LIMIT:
+            toc += "\n[... check website to see more]"
+
+        # Set character limit
+        CHAR_LIMIT = 1300  # Adjust as needed
+        # Process About the Book
+        book_desc_raw = html.unescape(data.get('book_desc', ''))
+        book_desc = book_desc_raw[:CHAR_LIMIT]
+        if len(book_desc_raw) > CHAR_LIMIT:
+            book_desc += "\n[... check website to see more]"
+
+            
+        # Process About the Book
+        book_desc_raw = html.unescape(data.get('book_desc', ''))
+        book_desc = book_desc_raw[:CHAR_LIMIT]
+        if len(book_desc_raw) > CHAR_LIMIT:
+            book_desc += "\n[... check website to see more]"
+
+        # Process About the Author
+        about_author_raw = html.unescape(data.get('about_author', ''))
+        about_author = about_author_raw[:CHAR_LIMIT]
+        if len(about_author_raw) > CHAR_LIMIT:
+            about_author += "\n[... check website to see more]"
 
         # Render HTML with template
         rendered_html = render_template(
@@ -50,8 +72,8 @@ def generate_pdf():
             author=data.get('author'),
             variants=data.get('variants'),
             price=data.get('price'),
-            book_desc=html.unescape(data.get('book_desc', '')),
-            about_author=html.unescape(data.get('about_author', '')),
+            book_desc=book_desc,
+            about_author=about_author,
             toc=toc
         )
 
