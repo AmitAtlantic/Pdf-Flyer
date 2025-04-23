@@ -68,12 +68,12 @@ def generate_pdf():
         toc = truncate_html_preserving_tags(toc_raw, TOC_CHAR_LIMIT)
 
         # Process About the Book (HTML safe)
-        book_desc_raw = html.unescape(data.get('book_desc', ''))
-        book_desc = truncate_html_preserving_tags(book_desc_raw, CHAR_LIMIT)
+        book_desc = html.unescape(data.get('book_desc', ''))
+        # book_desc = truncate_html_preserving_tags(book_desc_raw, CHAR_LIMIT)
 
         # Process About the Author (HTML safe)
-        about_author_raw = html.unescape(data.get('about_author', ''))
-        about_author = truncate_html_preserving_tags(about_author_raw, CHAR_LIMIT)
+        about_author = html.unescape(data.get('about_author', ''))
+        # about_author = truncate_html_preserving_tags(about_author_raw, CHAR_LIMIT)
 
         # Render HTML with template
         rendered_html = render_template(
