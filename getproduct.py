@@ -6,6 +6,11 @@ import os
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
+
+SHOPIFY_DOMAIN = os.getenv("SHOPIFY_DOMAIN")
+SHOPIFY_ACCESS_TOKEN = os.getenv("SHOPIFY_ACCESS_TOKEN")
 
 app = Flask(__name__)
 CORS(app, resources={r"/getproduct": {"origins": "*"}})
@@ -48,9 +53,7 @@ def truncate_html_preserving_tags(html_content, char_limit):
 
     return str(soup)
 
-# Shopify API Config
-SHOPIFY_DOMAIN = "wcenvi-rh.myshopify.com"
-SHOPIFY_ACCESS_TOKEN = "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"
+
 def safe_get(dictionary, keys, default=''):
     """Safely get nested dictionary keys"""
     if not isinstance(keys, list):
