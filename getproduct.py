@@ -240,14 +240,14 @@ def generate_pdf():
         pages = metafields.get("custom_pages")
 
         # Assuming truncate_html_preserving_tags is a defined function
-        about_book = truncate_html_preserving_tags(metafields.get("custom_about_the_book", ""),1100)
+        about_book = truncate_html_preserving_tags(metafields.get("custom_about_the_book", ""),1300)
         authors = ", ".join(filter(None, [
             metafields.get("custom_author"),
             metafields.get("custom_author2"),
             metafields.get("custom_author3"),
         ]))
-        about_author = truncate_html_preserving_tags(metafields.get("custom_about_the_author", ""),900)
-        toc = truncate_html_preserving_tags(metafields.get("custom_table_of_contents", ""), 950)
+        about_author = truncate_html_preserving_tags(metafields.get("custom_about_the_author", ""),1300)
+        toc = truncate_html_preserving_tags(metafields.get("custom_table_of_contents", ""), 1100)
 
         # Render HTML template
         rendered_html = render_template(
