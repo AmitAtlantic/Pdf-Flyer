@@ -94,7 +94,6 @@ hr {
 }
 
 .flyer_container {
-    min-height: 100%;
     width: 100%;
     overflow: hidden;
     box-sizing: border-box;
@@ -106,15 +105,17 @@ hr {
     padding: 10px;
     border: 1px groove #cccccc;
     max-width: 100%;
+    min-height: 370mm;
+    max-height: 370mm;
 }
 
 .sidebar {
-    width: 30%;
+    width: 35%;
     background: #f0f7f8;
 }
 
 .flyer_content {
-    width: 70%;
+    width: 65%;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -204,7 +205,7 @@ hr {
     text-transform: uppercase;
     color: #1c69a1;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .author {
@@ -231,7 +232,11 @@ hr {
     margin-top: auto;
     color: #fff;
     padding: 10px;
+    align-self: flex-end;
+    -webkit-align-self: flex-end;
+    -webkit-box-align: end;
 }
+
 
 .footer_top {
     text-align: center;
@@ -255,7 +260,7 @@ hr {
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    margin: 10px 0;
+    margin: 5px 0;
     gap: 20px;
     -webkit-column-gap: 20px;
     column-gap: 20px;
@@ -266,7 +271,7 @@ hr {
     display: flex;
     display: -webkit-box;
     display: -webkit-flex;
-    margin-top: 20px;
+    margin-top: 10px;
     letter-spacing: 0.5px;
     position: relative;
     bottom: 0;
@@ -276,7 +281,7 @@ hr {
 }
 .flyer_footer_bottom .footer_address .agent {
     font-size: 12px;
-    margin: 10px 0;
+    margin: 5px 0;
     word-break: break-all;
 }
 
@@ -308,7 +313,7 @@ hr {
                 </div>
                 <div class="meta_info bg-dark">
                     <p class="category">{{ product_category }}</p>
-                    <p>{{ publisher_imprint }} | {{ publishing_date }} | {{ pages }}pp</p>
+                    <p>{{ publisher }} | {{ publishing_date }} | {{ pages }}pp</p>
                     {% if variants %}
                     {% for v in variants %}
                     <p>
@@ -317,7 +322,7 @@ hr {
                         {% endif %}
                         |
                         {{ v.title }}
-                        | Inr {{ v.price }}
+                        | {{v.currency}} {{ v.price }}
                     </p>
                     {% endfor %}
                     {% endif %}
@@ -330,7 +335,8 @@ hr {
                 </div>
             </div>
             <div class="flyer_content">
-                <div class="flyer_header bg-dark"">
+                <div class="content-top">
+                <div class="flyer_header bg-dark">
                     <table style=" width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="text-align: left;">
@@ -351,26 +357,39 @@ hr {
                 <div class="flyer_description">
                     <h1 class="title">{{ product_title }}</h1>
                     {% if volume or edition %}
-                    <h4 class="product_meta">{{ volume }}{% if volume and edition %} | {% endif %}{{ edition }} Edition
+                    <h4 class="product_meta">
+                        {% if volume %}{{ volume }}{% endif %}
+                        {% for v in variants %}
+                            {% if 'Edition' in v.edition %}
+                                | {{ v.edition }}
+                            {% elif v.edition != '' %}
+                                | {{ v.edition }} Edition
+                            {% endif %}
+                        {% endfor %}
                     </h4>
-                    {% endif %}
-
+                {% endif %}
                     <h2 class="author">By {{ author }}</h2>
+                    {% if book_desc or about_author %}
                     <hr>
+                    {% endif %}
                     <div class="product_desc">
                         {% if book_desc %}
                         <h2 class="heading">About The Book</h2>
                         {{ book_desc|safe }}
                         {% endif %}
                     </div>
+                    {% if book_desc and about_author %}
                     <hr>
+                    {% endif %}
                     <div class="about_author">
                         {% if about_author %}
-                        <h2 class="heading">About Author</h2>
+                        <h2 class="heading">About The Author</h2>
                         {{ about_author|safe }}
                         {% endif %}
                     </div>
                 </div>
+                </div>
+
                 <div class="flyer_footer bg-dark">
                     <div class="footer_top">
                         <span class="caption">Please send your orders to:</span>
